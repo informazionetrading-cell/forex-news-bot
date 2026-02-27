@@ -1,0 +1,25 @@
+name: Forex News Bot
+on:
+  schedule:
+    - cron: '0 * * * *' # Gira allo scoccare di ogni ora
+  workflow_dispatch: # Questo tasto ci permette di provarlo subito a mano
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Installa librerie
+        run: pip install requests
+
+      - name: Avvia il bot
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python bot.py
